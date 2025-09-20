@@ -1,0 +1,3 @@
+Hello from the MCP filesystem server!
+
+This file is being read by a Genkit flow that is using the genkitx-mcp plugin to connect to an external MCP server. The server exposes filesystem tools, and Genkit is calling the 'readFile' tool.
