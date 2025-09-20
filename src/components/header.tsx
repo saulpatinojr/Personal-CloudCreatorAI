@@ -8,7 +8,7 @@ export function Header() {
           <Mic className="h-6 w-6" />
         </div>
         <h1 className="text-2xl font-bold font-headline text-primary">
-          AzurePod AI
+          CloudCreatorAI
         </h1>
       </div>
     </header>
