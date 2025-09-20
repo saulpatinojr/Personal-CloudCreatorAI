@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { generateScriptFromTopic } from '@/ai/flows/generate-script-from-topic';
 import { summarizeArticle } from '@/ai/flows/summarize-article';
 import { insertCallouts } from '@/ai/flows/insert-callouts';
+import { generateMarketSummary } from '@/ai/flows/generate-market-summary';
 import { useToast } from '@/hooks/use-toast';
 import {
   Card,
@@ -17,8 +18,9 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Loader2, Wand2 } from 'lucide-react';
+import { Loader2, Wand2, Newspaper } from 'lucide-react';
 import { ScriptDisplay } from './script-display';
+import { Separator } from './ui/separator';
 
 export type ScriptData = {
   topic: string;
@@ -31,8 +33,12 @@ export function ScriptGenerator() {
   const [topic, setTopic] = useState('');
   const [urls, setUrls] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [scriptData, setScriptData] = useState<ScriptData | null>(null);
+  const [marketSummary, setMarketSummary] = useState('');
+  const [companyName, setCompanyName] = useState('Microsoft');
+  const [ticker, setTicker] = useState('MSFT');
 
   const { toast } = useToast();
 
@@ -99,6 +105,32 @@ export function ScriptGenerator() {
     }
   };
 
+  const handleGenerateSummary = async () => {
+    if (!companyName.trim() || !ticker.trim()) {
+      toast({
+        title: 'Company and Ticker are required',
+        description: 'Please provide a company name and ticker symbol.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    setIsLoadingSummary(true);
+    setMarketSummary('');
+    try {
+      const { summary } = await generateMarketSummary({ companyName, ticker });
+      setMarketSummary(summary);
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred.';
+      toast({
+        title: 'Error generating summary',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoadingSummary(false);
+    }
+  };
+
   return (
     <>
       <Card className="shadow-lg">
@@ -155,6 +187,59 @@ export function ScriptGenerator() {
           </Button>
         </CardFooter>
       </Card>
+
+      <Separator className="my-8" />
+      
+      <Card className="shadow-lg">
+        <CardHeader>
+          <CardTitle className="font-headline text-3xl">Custom Tool Demo: Market Summary</CardTitle>
+          <CardDescription>
+            Generate a market summary using an AI tool that fetches stock prices.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="companyName" className="font-semibold font-headline">Company Name</Label>
+                <Input
+                  id="companyName"
+                  placeholder="e.g., Microsoft"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  disabled={isLoadingSummary}
+                  className="text-base"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="ticker" className="font-semibold font-headline">Ticker Symbol</Label>
+                <Input
+                  id="ticker"
+                  placeholder="e.g., MSFT"
+                  value={ticker}
+                  onChange={(e) => setTicker(e.target.value)}
+                  disabled={isLoadingSummary}
+                  className="text-base"
+                />
+              </div>
+            </div>
+            {marketSummary && (
+                <div className="p-4 border rounded-md bg-background/50 text-foreground/90 leading-relaxed">
+                    {marketSummary}
+                </div>
+            )}
+        </CardContent>
+        <CardFooter>
+            <Button onClick={handleGenerateSummary} disabled={isLoadingSummary} className="w-full md:w-auto">
+                {isLoadingSummary ? (
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                ) : (
+                <Newspaper className="mr-2 h-5 w-5" />
+                )}
+                {isLoadingSummary ? 'Generating...' : 'Generate Market Summary'}
+            </Button>
+        </CardFooter>
+      </Card>
+
       {scriptData && <ScriptDisplay scriptData={scriptData} />}
     </>
   );
