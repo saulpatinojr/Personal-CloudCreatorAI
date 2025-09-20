@@ -1,1 +1,6 @@
-// Flows will be imported for their side effects in this file.
+import { config } from 'dotenv';
+config();
+
+import '@/ai/flows/insert-callouts.ts';
+import '@/ai/flows/summarize-article.ts';
+import '@/ai/flows/generate-script-from-topic.ts';
