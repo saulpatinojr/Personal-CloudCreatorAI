@@ -3,7 +3,7 @@ import {googleAI} from '@genkit-ai/googleai';
 import {mcpClient} from 'genkitx-mcp';
 
 // TODO: Replace with your actual MCP server URL.
-const MCP_SERVER_URL = 'http://localhost:4000';
+const MCP_SERVER_URL = 'https://learn.microsoft.com/api/mcp';
 
 // This creates a Genkit plugin that acts as a client for an MCP server.
 // Tools and prompts from the MCP server will be automatically available in Genkit,
