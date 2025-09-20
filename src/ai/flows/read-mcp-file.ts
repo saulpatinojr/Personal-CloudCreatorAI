@@ -10,7 +10,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { readFile } from 'genkitx-mcp';
 
 const ReadMcpFileInputSchema = z.object({
   path: z.string().describe('The path to the file to read.'),
@@ -34,8 +33,8 @@ const readMcpFileFlow = ai.defineFlow(
   },
   async (input) => {
     // We directly call the tool provided by the MCP plugin.
-    // The tool is namespaced with the client name ('filesystem').
-    const content = await readFile('filesystem', { path: input.path });
+    // The tool is namespaced with the client name ('mcp_service').
+    const content = await ai.runTool('mcp_service/readFile', { path: input.path });
 
     // The tool might return a complex object, so we handle it gracefully.
     let fileContent = '';

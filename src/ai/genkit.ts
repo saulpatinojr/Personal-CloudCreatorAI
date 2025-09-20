@@ -18,5 +18,4 @@ export const ai = genkit({
     googleAI(),
     mcpService, // Add the MCP client plugin.
   ],
-  model: 'googleai/gemini-2.5-flash',
 });
