@@ -1,6 +1,6 @@
 'use client';
 
-import type { ScriptData } from './script-generator';
+import type { ScriptData } from './source-manager';
 import {
   Card,
   CardContent,
