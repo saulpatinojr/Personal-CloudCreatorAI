@@ -14,12 +14,14 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Loader2, Wand2 } from 'lucide-react';
+import { Loader2, Wand2, ArrowLeft } from 'lucide-react';
+import { SourceManager } from './source-manager';
 
 export function ContentCreator() {
   const [topic, setTopic] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [titles, setTitles] = useState<string[]>([]);
+  const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
 
   const { toast } = useToast();
 
@@ -51,6 +53,18 @@ export function ContentCreator() {
       setIsLoading(false);
     }
   };
+
+  const handleTitleSelect = (title: string) => {
+    setSelectedTitle(title);
+  };
+  
+  const handleBack = () => {
+    setSelectedTitle(null);
+  }
+
+  if (selectedTitle) {
+    return <SourceManager selectedTitle={selectedTitle} onBack={handleBack} />;
+  }
 
   return (
     <>
@@ -102,11 +116,15 @@ export function ContentCreator() {
           <CardFooter>
             <div className="w-full">
               <h3 className="font-headline text-xl font-semibold mb-3">
-                Generated Titles
+                Select a Title
               </h3>
-              <ul className="list-disc pl-5 space-y-2">
+              <ul className="space-y-2">
                 {titles.map((title, index) => (
-                  <li key={index} className="text-foreground/90">
+                  <li
+                    key={index}
+                    className="text-foreground/90 p-3 rounded-md border hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors"
+                    onClick={() => handleTitleSelect(title)}
+                  >
                     {title}
                   </li>
                 ))}
