@@ -7,4 +7,3 @@ import '@/ai/flows/generate-script-from-topic.ts';
 import '@/ai/flows/generate-market-summary.ts';
 import '@/ai/flows/generate-catchy-titles.ts';
 import '@/ai/flows/generate-script-from-sources.ts';
-import '@/ai/flows/read-mcp-file.ts';

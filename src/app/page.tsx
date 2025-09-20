@@ -1,6 +1,5 @@
 import { Header } from '@/components/header';
 import { ContentCreator } from '@/components/script-generator';
-import { McpReader } from '@/components/mcp-reader';
 
 export default function Home() {
   return (
@@ -8,7 +7,6 @@ export default function Home() {
       <Header />
       <main className="flex-1 container mx-auto p-4 md:p-8 space-y-8">
         <ContentCreator />
-        <McpReader />
       </main>
     </div>
   );
