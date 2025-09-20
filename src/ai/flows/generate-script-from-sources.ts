@@ -67,7 +67,7 @@ const prompt = ai.definePrompt({
   {{/each}}
 
   Please generate the following:
-  1.  **Podcast Script**: A 15-20 minute teleprompter-style script. It should be educational, informative, and have a natural, conversational tone.
+  1.  **Podcast Script**: A teleprompter-style script that is at least 20 minutes in length. It should be educational, informative, and have a natural, conversational tone.
       - Include clear section headers (e.g., # Introduction, # Main Point, # Conclusion).
       - Inject interesting "Callouts" with real-world scenarios or deeper insights. Separate these from the main text with "---" on the lines before and after, and start them with "Callout:".
   2.  **Key Takeaways**: A list of 3-5 bullet points summarizing the most important concepts from the script.
