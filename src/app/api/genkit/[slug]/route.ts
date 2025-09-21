@@ -1,6 +1,6 @@
 import {genkit} from 'genkit';
 import {googleAI} from '@genkit-ai/googleai';
-import {next} from '@genkit-ai/next';
+import next from '@genkit-ai/next';
 import {defineFlow} from 'genkit/flow';
 import {z} from 'zod';
 import {mcpClient} from 'genkitx-mcp';

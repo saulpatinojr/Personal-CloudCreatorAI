@@ -7,6 +7,19 @@ runConfig:
   # cpu: 1
   # memoryMiB: 512
 
+# Specifies the commands to build and start the application.
+build:
+  # This command is executed on the build server.
+  # It installs dependencies and builds the Next.js application.
+  run:
+    - npm install
+    - npm run build
+
+start:
+  # This command is executed on the production server.
+  # It starts the Next.js application.
+  run: npm run start
+
 # Environment variables and secrets.
 # env:
   # Configure environment variables.

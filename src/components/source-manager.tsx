@@ -17,7 +17,7 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { ScriptDisplay } from './script-display';
-import {run} from 'genkit/next';
+import {runFlow} from '@genkit-ai/next/client';
 
 type SourceManagerProps = {
   selectedTitle: string;
@@ -140,7 +140,7 @@ export function SourceManager({ selectedTitle, onBack }: SourceManagerProps) {
     setScriptData(null);
     
     try {
-        const result = await run(generateScriptFromSources, { topic: selectedTitle, sources: sources.map(({id, ...rest}) => rest) });
+        const result = await runFlow(generateScriptFromSources, { topic: selectedTitle, sources: sources.map(({id, ...rest}) => rest) });
         setScriptData({
             topic: selectedTitle,
             script: result.script,
