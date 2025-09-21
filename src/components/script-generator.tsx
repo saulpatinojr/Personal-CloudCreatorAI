@@ -14,8 +14,9 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Loader2, Wand2, ArrowLeft } from 'lucide-react';
+import { Loader2, Wand2 } from 'lucide-react';
 import { SourceManager } from './source-manager';
+import {run} from 'genkit/next';
 
 export function ContentCreator() {
   const [topic, setTopic] = useState('');
@@ -39,7 +40,7 @@ export function ContentCreator() {
     setTitles([]);
 
     try {
-      const result = await generateCatchyTitles({ topic });
+      const result = await run(generateCatchyTitles, { topic });
       setTitles(result.titles);
     } catch (e) {
       const errorMessage =

@@ -1,6 +1,7 @@
 import {genkit} from 'genkit';
 import {googleAI} from '@genkit-ai/googleai';
 import {mcpClient} from 'genkitx-mcp';
+import {next} from '@genkit-ai/next';
 
 // TODO: Replace with your actual MCP server URL.
 const MCP_SERVER_URL = 'https://learn.microsoft.com/api/mcp';
@@ -17,5 +18,6 @@ export const ai = genkit({
   plugins: [
     googleAI(),
     mcpService, // Add the MCP client plugin.
+    next(),
   ],
 });
