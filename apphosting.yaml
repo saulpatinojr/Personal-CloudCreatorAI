@@ -12,7 +12,7 @@ build:
   # This command is executed on the build server.
   # It installs dependencies and builds the Next.js application.
   run:
-    - npm install
+    - npm ci
     - npm run build
 
 start:
@@ -21,14 +21,22 @@ start:
   run: npm run start
 
 # Environment variables and secrets.
-# env:
+env:
   # Configure environment variables.
-  # See https://firebase.google.com/docs/app-hosting/configure#user-defined-environment
-  # - variable: MESSAGE
-  #   value: Hello world!
-  #   availability:
-  #     - BUILD
-  #     - RUNTIME
+  - variable: GOOGLE_GENAI_API_KEY
+    secret: google-genai-api-key
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NODE_ENV
+    value: production
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: SKIP_ENV_VALIDATION
+    value: "true"
+    availability:
+      - BUILD
 
   # Grant access to secrets in Cloud Secret Manager.
   # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
