@@ -43,11 +43,10 @@ export function ContentCreator() {
       const result = await runFlow(generateCatchyTitles, { topic });
       setTitles(result.titles);
     } catch (e) {
-      const errorMessage =
-        e instanceof Error ? e.message : 'An unknown error occurred.';
+      console.error('Error generating titles:', e);
       toast({
         title: 'Error generating titles',
-        description: errorMessage,
+        description: 'An unexpected error occurred. Please try again later.',
         variant: 'destructive',
       });
     } finally {

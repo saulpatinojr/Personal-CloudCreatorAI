@@ -148,10 +148,10 @@ export function SourceManager({ selectedTitle, onBack }: SourceManagerProps) {
             references: result.references
         });
     } catch (e) {
-        const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred.';
+        console.error('Error generating script:', e);
         toast({
             title: 'Error generating script',
-            description: errorMessage,
+            description: 'An unexpected error occurred. Please try again later.',
             variant: 'destructive',
         });
     } finally {
