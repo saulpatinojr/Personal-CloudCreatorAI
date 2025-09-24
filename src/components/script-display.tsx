@@ -11,13 +11,14 @@ import {
 } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { Download, FileJson, FileText, Link as LinkIcon, Sparkles, Star } from 'lucide-react';
+import { ArrowLeft, Download, FileJson, FileText, Link as LinkIcon, Sparkles, Star } from 'lucide-react';
 
 type ScriptDisplayProps = {
   scriptData: ScriptData;
+  onBack?: () => void;
 };
 
-export function ScriptDisplay({ scriptData }: ScriptDisplayProps) {
+export function ScriptDisplay({ scriptData, onBack }: ScriptDisplayProps) {
   const { script, takeaways, references, topic } = scriptData;
 
   const handleJsonExport = () => {
@@ -27,26 +28,48 @@ export function ScriptDisplay({ scriptData }: ScriptDisplayProps) {
       keyTakeaways: takeaways,
       references,
     };
-    const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
-      JSON.stringify(data, null, 2)
-    )}`;
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
     const link = document.createElement('a');
-    link.href = jsonString;
+    link.href = URL.createObjectURL(blob);
     link.download = `${topic.replace(/\s+/g, '_').toLowerCase()}_script.json`;
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
   };
 
-  const handleDocExport = () => {
+  const handleTxtExport = () => {
     let docContent = `Topic: ${topic}\n\n`;
     docContent += `--- SCRIPT ---\n\n${script}\n\n`;
     docContent += `--- KEY TAKEAWAYS ---\n\n${takeaways.join('\n\n')}\n\n`;
     docContent += `--- REFERENCES ---\n\n${references.join('\n')}`;
 
-    const blob = new Blob([docContent], { type: 'application/msword' });
+    const blob = new Blob([docContent], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${topic.replace(/\s+/g, '_').toLowerCase()}_script.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+  };
+
+  const handleDocExport = () => {
+    let docContent = `<html><head><meta charset="utf-8"><title>${topic}</title></head><body>`;
+    docContent += `<h1>${topic}</h1>`;
+    docContent += `<h2>Script</h2><div>${script.replace(/\n/g, '<br>')}</div>`;
+    docContent += `<h2>Key Takeaways</h2><ul>${takeaways.map(t => `<li>${t}</li>`).join('')}</ul>`;
+    docContent += `<h2>References</h2><ul>${references.map(r => `<li><a href="${r}">${r}</a></li>`).join('')}</ul>`;
+    docContent += `</body></html>`;
+
+    const blob = new Blob([docContent], { type: 'application/msword;charset=utf-8' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = `${topic.replace(/\s+/g, '_').toLowerCase()}_script.doc`;
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
   };
 
   const renderScriptContent = (content: string) => {
@@ -94,8 +117,17 @@ export function ScriptDisplay({ scriptData }: ScriptDisplayProps) {
   return (
     <Card className="mt-8 shadow-lg">
       <CardHeader>
-        <CardTitle className="font-headline text-3xl">Your Podcast Script</CardTitle>
-        <CardDescription>Generated script for: "{topic}"</CardDescription>
+        <div className="flex items-center gap-4">
+          {onBack && (
+            <Button variant="outline" size="icon" onClick={onBack}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          )}
+          <div>
+            <CardTitle className="font-headline text-3xl">Your Podcast Script</CardTitle>
+            <CardDescription>Generated script for: "{topic}"</CardDescription>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="script">
@@ -139,14 +171,17 @@ export function ScriptDisplay({ scriptData }: ScriptDisplayProps) {
         </Tabs>
       </CardContent>
       <CardFooter className="flex justify-end gap-4 bg-muted/50 p-4 rounded-b-lg">
-         <p className="text-sm text-muted-foreground mr-auto flex items-center gap-2"><Download className="h-4 w-4"/> Export Script</p>
-        <Button onClick={handleJsonExport} variant="outline">
-          <FileJson className="mr-2" />
-          Export as .json
+        <Button onClick={handleJsonExport} variant="outline" className="metallic-button">
+          <FileJson className="mr-2 h-4 w-4" />
+          Export JSON
         </Button>
-        <Button onClick={handleDocExport}>
-          <FileText className="mr-2" />
-          Export as .doc
+        <Button onClick={handleTxtExport} variant="outline" className="metallic-button">
+          <FileText className="mr-2 h-4 w-4" />
+          Export TXT
+        </Button>
+        <Button onClick={handleDocExport} className="metallic-button">
+          <FileText className="mr-2 h-4 w-4" />
+          Export DOC
         </Button>
       </CardFooter>
     </Card>

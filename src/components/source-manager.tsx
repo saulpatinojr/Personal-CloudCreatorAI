@@ -177,7 +177,7 @@ export function SourceManager({ selectedTitle, onBack }: SourceManagerProps) {
   }
   
   if (scriptData) {
-      return <ScriptDisplay scriptData={scriptData} />;
+      return <ScriptDisplay scriptData={scriptData} onBack={() => setScriptData(null)} />;
   }
 
   return (

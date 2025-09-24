@@ -15,15 +15,29 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       return NextResponse.json(result);
     }
     
-<<<<<<< HEAD
     if (slug === 'generateScriptFromSources') {
       const { generateScriptFromSourcesFlow } = await import('@/ai/flows/generate-script-from-sources');
       const result = await generateScriptFromSourcesFlow(body);
       return NextResponse.json(result);
     }
     
-=======
->>>>>>> e3a43c3a57fa96db0fe15f66f25ae0a54ed84544
+    if (slug === 'enhancedScriptFlow') {
+      const { enhancedScriptFlow } = await import('@/ai/flows/enhanced-script-generator');
+      const result = await enhancedScriptFlow(body);
+      return NextResponse.json(result);
+    }
+    
+    if (slug === 'testMcpConnections') {
+      const { testMcpConnectionsFlow } = await import('@/ai/flows/test-mcp-connections');
+      const result = await testMcpConnectionsFlow(body);
+      return NextResponse.json(result);
+    }
+    
+    if (slug === 'debugMcpTools') {
+      const { debugMcpToolsFlow } = await import('@/ai/flows/debug-mcp-tools');
+      const result = await debugMcpToolsFlow(body);
+      return NextResponse.json(result);
+    }
     return NextResponse.json({ error: 'Flow not found' }, { status: 404 });
   } catch (error) {
     console.error('API Error:', error);
