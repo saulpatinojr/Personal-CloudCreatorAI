@@ -1,10 +1,10 @@
-import {genkit} from 'genkit';
-import {googleAI} from '@genkit-ai/googleai';
+// src/app/api/genkit/[slug]/route.ts
+import { genkit } from 'genkit';
+import { googleAI } from '@genkit-ai/googleai';
 import next from '@genkit-ai/next';
-import {z} from 'zod';
-import {mcpClient} from 'genkitx-mcp';
+import { mcpClient } from 'genkitx-mcp';
 
-// Import your flows here.
+// Import all flows and tools to ensure they are registered with Genkit.
 import '@/ai/flows/insert-callouts';
 import '@/ai/flows/summarize-article';
 import '@/ai/flows/generate-script-from-topic';
@@ -19,17 +19,15 @@ const mcpService = mcpClient({
   serverUrl: MCP_SERVER_URL,
 });
 
+// Initialize Genkit with plugins. This makes the flows available to the handler.
 genkit({
   plugins: [
     googleAI(),
     mcpService,
-    next({
-      // The Next.js plugin exports a function that creates a route handler.
-      // You can specify the flows that you want to expose to the client.
-      // You can also specify an `auth` function to protect your flows.
-    }),
+    next(), // The Next.js plugin provides the route handler.
   ],
 });
 
-// This is the Next.js route handler that will be used to run your flows.
-export {POST} from '@genkit-ai/next';
+// Export the POST handler from the Genkit Next.js plugin.
+// This creates the API endpoint that the client-side `runFlow` function calls.
+export { POST } from '@genkit-ai/next';
