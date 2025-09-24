@@ -148,9 +148,9 @@ export function SourceManager({ selectedTitle, onBack }: SourceManagerProps) {
             references: result.references
         });
     } catch (e) {
-        console.error('Error generating script:', e);
+        console.error('Raw API Error:', e);
         toast({
-            title: 'Error generating script',
+            title: 'Error Generating Script',
             description: 'An unexpected error occurred. Please try again later.',
             variant: 'destructive',
         });

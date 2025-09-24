@@ -43,9 +43,9 @@ export function ContentCreator() {
       const result = await runFlow(generateCatchyTitles, { topic });
       setTitles(result.titles);
     } catch (e) {
-      console.error('Error generating titles:', e);
+      console.error('Raw API Error:', e);
       toast({
-        title: 'Error generating titles',
+        title: 'Error Generating Titles',
         description: 'An unexpected error occurred. Please try again later.',
         variant: 'destructive',
       });
