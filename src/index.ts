@@ -1,41 +1,10 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+// src/app/api/genkit/[slug]/route.ts
+import '@/ai/dev';
+import { POST } from '@genkit-ai/next';
 
-import {setGlobalOptions} from "firebase-functions";
-import {onCall} from "firebase-functions/v2/https";
-import {menuSuggestionFlow} from "./genkit-sample";
-import {defineFlow, runFlow} from "@genkit-ai/firebase/functions";
+// This single import statement for '@/ai/dev' ensures that all flows and tools
+// defined in your project are registered with the Genkit instance before the
+// POST handler is exported. The POST handler from the Genkit Next.js plugin
+// creates the necessary API endpoints that the client-side `runFlow` function calls.
 
-// For cost control, you can set the maximum number of containers that can be
-// running at the same time. This helps mitigate the impact of unexpected
-// traffic spikes by instead downgrading performance. This limit is a
-// per-function limit. You can override the limit for each function using the
-// `maxInstances` option in the function's options, e.g.
-// `onRequest({ maxInstances: 5 }, (req, res) => { ... })`.
-// NOTE: setGlobalOptions does not apply to functions using the v1 API. V1
-// functions should each use functions.runWith({ maxInstances: 10 }) instead.
-// In the v1 API, each function can only serve one request per container, so
-// this will be the maximum concurrent request count.
-setGlobalOptions({maxInstances: 10});
-
-export const menuSuggestion = defineFlow(
-  {
-    name: "menuSuggestionFlow",
-    // See https://firebase.google.com/docs/functions/locations
-    region: "us-central1",
-    // We recommend using warm-up to avoid cold starts.
-    // See https://firebase.google.com/docs/functions/performance/tips#reduce_cold_starts
-    minInstances: 1,
-  },
-  menuSuggestionFlow,
-);
-
-export const suggestMenuItem = onCall(async (request) => {
-  return await runFlow(menuSuggestionFlow, request.data);
-});
+export { POST };
