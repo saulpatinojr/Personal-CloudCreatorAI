@@ -1,10 +1,29 @@
 // src/app/api/genkit/[slug]/route.ts
 import '@/ai/dev';
-import { POST } from '@genkit-ai/next';
+import { ai } from '@/ai/genkit';
+import { NextRequest, NextResponse } from 'next/server';
 
-// This single import statement for '@/ai/dev' ensures that all flows and tools
-// defined in your project are registered with the Genkit instance before the
-// POST handler is exported. The POST handler from the Genkit Next.js plugin
-// creates the necessary API endpoints that the client-side `runFlow` function calls.
-
-export { POST };
+export async function POST(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  try {
+    const { slug } = await params;
+    const body = await request.json();
+    
+    // Handle flow execution
+    if (slug === 'generateCatchyTitlesFlow') {
+      const { generateCatchyTitlesFlow } = await import('@/ai/flows/generate-catchy-titles');
+      const result = await generateCatchyTitlesFlow(body);
+      return NextResponse.json(result);
+    }
+    
+    if (slug === 'generateScriptFromSources') {
+      const { generateScriptFromSourcesFlow } = await import('@/ai/flows/generate-script-from-sources');
+      const result = await generateScriptFromSourcesFlow(body);
+      return NextResponse.json(result);
+    }
+    
+    return NextResponse.json({ error: 'Flow not found' }, { status: 404 });
+  } catch (error) {
+    console.error('API Error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}

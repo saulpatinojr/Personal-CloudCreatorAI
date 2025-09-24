@@ -54,30 +54,21 @@ const prompt = ai.definePrompt({
   name: 'generateScriptFromSourcesPrompt',
   input: { schema: GenerateScriptFromSourcesInputSchema },
   output: { schema: GenerateScriptFromSourcesOutputSchema },
-  prompt: `You are a podcast script writer specializing in creating engaging content for a technical audience (level 200-300) on Azure topics.
+  model: 'googleai/gemini-1.5-flash',
+  prompt: `You are a podcast script writer specializing in creating engaging content for a technical audience on Azure topics.
 
-  Your task is to generate a complete podcast episode package based on the provided topic and sources.
+  Topic: {{{topic}}}
 
-  **Topic:**
-  "{{{topic}}}"
-
-  **Sources:**
+  Sources:
   {{#each sources}}
-  - [{{type}}] {{{name}}}: {{{content}}}
+  - [{{{type}}}] {{{name}}}: {{{content}}}
   {{/each}}
 
-  Please generate the following:
-  1.  **Podcast Script**: A teleprompter-style script that is at least 20 minutes in length. It should be educational, informative, and have a natural, conversational tone.
-      - Include clear section headers (e.g., # Introduction, # Main Point, # Conclusion).
-      - Inject interesting "Callouts" with real-world scenarios or deeper insights. Separate these from the main text with "---" on the lines before and after, and start them with "Callout:".
-  2.  **Key Takeaways**: A list of 3-5 bullet points summarizing the most important concepts from the script.
-  3.  **References**: A list of the source URLs provided. Only include sources of type 'url'.
-
-  Structure your entire output as a single JSON object that matches the required output schema.
+  Generate a podcast script (10-15 minutes), key takeaways (3-5 points), and references (URLs only).
   `,
 });
 
-const generateScriptFromSourcesFlow = ai.defineFlow(
+export const generateScriptFromSourcesFlow = ai.defineFlow(
   {
     name: 'generateScriptFromSourcesFlow',
     inputSchema: GenerateScriptFromSourcesInputSchema,

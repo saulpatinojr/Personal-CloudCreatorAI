@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { useState } from 'react';
-import { generateScriptFromSources } from '@/ai/flows/generate-script-from-sources';
 import {
   Card,
   CardContent,
@@ -17,7 +16,6 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { ScriptDisplay } from './script-display';
-import {runFlow} from '@genkit-ai/next/client';
 
 type SourceManagerProps = {
   selectedTitle: string;
@@ -140,7 +138,17 @@ export function SourceManager({ selectedTitle, onBack }: SourceManagerProps) {
     setScriptData(null);
     
     try {
-        const result = await runFlow(generateScriptFromSources, { topic: selectedTitle, sources: sources.map(({id, ...rest}) => rest) });
+        const response = await fetch('/api/genkit/generateScriptFromSources', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ topic: selectedTitle, sources: sources.map(({id, ...rest}) => rest) })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+        }
+        
+        const result = await response.json();
         setScriptData({
             topic: selectedTitle,
             script: result.script,

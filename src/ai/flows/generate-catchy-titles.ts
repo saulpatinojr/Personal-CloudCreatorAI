@@ -39,6 +39,7 @@ const prompt = ai.definePrompt({
   name: 'generateCatchyTitlesPrompt',
   input: { schema: GenerateCatchyTitlesInputSchema },
   output: { schema: GenerateCatchyTitlesOutputSchema },
+  model: 'googleai/gemini-1.5-flash',
   prompt: `You are an expert content strategist specializing in creating viral-worthy titles for a professional LinkedIn audience.
 
   Given the following topic, generate a list of 5 catchy, compelling, and click-worthy titles for a podcast. The titles should be crafted to maximize engagement and encourage listeners. They should be professional yet intriguing.
@@ -47,7 +48,7 @@ const prompt = ai.definePrompt({
   `,
 });
 
-const generateCatchyTitlesFlow = ai.defineFlow(
+export const generateCatchyTitlesFlow = ai.defineFlow(
   {
     name: 'generateCatchyTitlesFlow',
     inputSchema: GenerateCatchyTitlesInputSchema,
@@ -58,3 +59,5 @@ const generateCatchyTitlesFlow = ai.defineFlow(
     return output!;
   }
 );
+
+
