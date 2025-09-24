@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test MCP Connections</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .result { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; }
+        .error { background-color: #f8d7da; }
+        button { padding: 10px 20px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h1>MCP Connection Test</h1>
+    <button onclick="testConnections()">Test MCP Connections</button>
+    <div id="results"></div>
+
+    <script>
+        async function testConnections() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>Testing MCP connections...</p>';
+            
+            try {
+                const response = await fetch('/api/genkit/testMcpConnections', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ testQuery: 'Azure Container Apps' })
+                });
+                
+                const result = await response.json();
+                
+                let html = '<h2>Test Results:</h2>';
+                
+                if (result.microsoftDocsResult) {
+                    html += `<div class="result success"><strong>Microsoft Docs MCP:</strong> ${result.microsoftDocsResult}</div>`;
+                }
+                
+                if (result.awsKnowledgeResult) {
+                    html += `<div class="result success"><strong>AWS Knowledge MCP:</strong> ${result.awsKnowledgeResult}</div>`;
+                }
+                
+                if (result.awsDocsResult) {
+                    html += `<div class="result success"><strong>AWS Documentation MCP:</strong> ${result.awsDocsResult}</div>`;
+                }
+                
+                if (result.errors && result.errors.length > 0) {
+                    result.errors.forEach(error => {
+                        html += `<div class="result error"><strong>Error:</strong> ${error}</div>`;
+                    });
+                }
+                
+                resultsDiv.innerHTML = html;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="result error">Test failed: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
