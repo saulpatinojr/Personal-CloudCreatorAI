@@ -1,7 +1,6 @@
 import {genkit} from 'genkit';
 import {googleAI} from '@genkit-ai/googleai';
 import next from '@genkit-ai/next';
-import {defineFlow} from 'genkit/flow';
 import {z} from 'zod';
 import {mcpClient} from 'genkitx-mcp';
 
@@ -33,4 +32,4 @@ genkit({
 });
 
 // This is the Next.js route handler that will be used to run your flows.
-export {POST} from 'genkit/next';
+export {POST} from '@genkit-ai/next';
