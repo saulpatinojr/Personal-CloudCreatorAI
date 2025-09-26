@@ -5,6 +5,16 @@ All notable changes to CloudCreatorAI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2024-12-20
+
+### Fixed
+- **Development Environment:**
+    - Updated the project to use Node.js version 22, resolving `EBADENGINE` warnings.
+    - Added an `engines` field to `package.json` to enforce the correct Node.js version.
+    - Updated dependencies by running `npm install` to resolve warnings about deprecated packages.
+- **Project Structure:**
+    - Removed the redundant `workspace` directory to simplify the project. A backup has been created at `workspace.tar.gz`.
+
 ## [1.0.0] - 2024-12-19 - Enterprise Release
 
 ### 🎆 Major Release Highlights

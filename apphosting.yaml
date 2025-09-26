@@ -7,36 +7,15 @@ runConfig:
   # cpu: 1
   # memoryMiB: 512
 
-# Specifies the commands to build and start the application.
-build:
-  # This command is executed on the build server.
-  # It installs dependencies and builds the Next.js application.
-  run:
-    - npm ci
-    - npm run build
-
-start:
-  # This command is executed on the production server.
-  # It starts the Next.js application.
-  run: npm run start
-
 # Environment variables and secrets.
-env:
+# env:
   # Configure environment variables.
-  - variable: GOOGLE_GENAI_API_KEY
-    secret: google-genai-api-key
-    availability:
-      - BUILD
-      - RUNTIME
-  - variable: NODE_ENV
-    value: production
-    availability:
-      - BUILD
-      - RUNTIME
-  - variable: SKIP_ENV_VALIDATION
-    value: "true"
-    availability:
-      - BUILD
+  # See https://firebase.google.com/docs/app-hosting/configure#user-defined-environment
+  # - variable: MESSAGE
+  #   value: Hello world!
+  #   availability:
+  #     - BUILD
+  #     - RUNTIME
 
   # Grant access to secrets in Cloud Secret Manager.
   # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
