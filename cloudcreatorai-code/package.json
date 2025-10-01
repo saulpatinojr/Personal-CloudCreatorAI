@@ -13,7 +13,7 @@
   },
   "name": "functions",
   "engines": {
-    "node": "22"
+    "node": "20"
   },
   "dependencies": {
     "@genkit-ai/firebase": "^1.20.0",
@@ -24,14 +24,21 @@
     "genkit": "^1.20.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "@typescript-eslint/parser": "^5.12.0",
-    "eslint": "^8.9.0",
+    "@typescript-eslint/eslint-plugin": "^7.13.0",
+    "@typescript-eslint/parser": "^7.13.0",
+    "eslint": "^8.57.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-plugin-import": "^2.25.4",
-    "firebase-functions-test": "^3.1.0",
-    "tsx": "^4.20.6",
-    "typescript": "^5.9.2"
+    "eslint-plugin-import": "^2.29.1",
+    "firebase-functions-test": "^3.2.0",
+    "tsx": "^4.15.6",
+    "typescript": "^5.5.2"
+  },
+  "overrides": {
+    "glob": "^10.4.1",
+    "rimraf": "^5.0.7",
+    "inflight": "npm:lru-cache@^10.3.0",
+    "domexception": "^4.0.0",
+    "node-domexception": "npm:domexception@^4.0.0"
   },
   "private": true
 }

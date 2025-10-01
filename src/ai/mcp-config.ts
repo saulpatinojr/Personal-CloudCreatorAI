@@ -19,7 +19,7 @@ export const awsKnowledgeClient = mcpClient({
 export const awsDocumentationClient = mcpClient({
   name: 'aws-documentation',
   serverProcess: {
-    command: 'uvx',
+    command: '/home/user/.local/bin/uvx',
     args: ['awslabs.aws-documentation-mcp-server@latest']
   }
 });

@@ -5,6 +5,12 @@ All notable changes to CloudCreatorAI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2024-12-20
+
+### Fixed
+- **Development Environment:**
+    - Updated the `dev` script to use Turbopack instead of Webpack, resolving the warning and improving development server performance.
+
 ## [1.0.1] - 2024-12-20
 
 ### Fixed
